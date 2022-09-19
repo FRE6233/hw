@@ -28,7 +28,7 @@ namespace fms {
 				return 1 / (1 + exp(-x / sigma));
 			}
 
-			return 0;
+			return 0; //!!! Implement F(x,s) here.
 		}
 
 #ifdef _DEBUG
