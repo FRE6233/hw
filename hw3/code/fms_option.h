@@ -20,4 +20,28 @@ namespace fms::option {
 
 		return k * N - f * Ns;
 	}
+
+	// dp/df
+	double delta(double f, double s, double k, const distribution& m)
+	{
+		return 0;
+	}
+
+	// d^2p/df^2
+	double gamma(double f, double s, double k, const distribution& m)
+	{
+		return 0;
+	}
+
+	// dp/ds
+	double vega(double f, double s, double k, const distribution& m)
+	{
+		return 0;
+	}
+
+	// p = put(f, implied(f, p, k, m), k, m)
+	double implied(double f, double p, double k, const distribution& m)
+	{
+		return 0;
+	}
 }

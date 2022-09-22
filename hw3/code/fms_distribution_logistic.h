@@ -21,14 +21,19 @@ namespace fms {
 		}
 
 		// F(x) = 1/(1 + e^{-x/sigma}), s = 0
-		// F(x, s) = F(x)^{1 + sigma s}/(1 + sigma s) 2F1(1 + sigma s, sigma s, 2 + sigma s, F(x))/mgf(s), -1/sigma < s < 1/sigma
+		// F(x, s) = F(x)^{1 + sigma s}/(1 + sigma s) 
+		//           2F1(1 + sigma s, sigma s, 2 + sigma s, F(x))/mgf(s), -1/sigma < s < 1/sigma
 		double _cdf(double x, double s = 0) const override
 		{
 			if (s == 0) {
 				return 1 / (1 + exp(-x / sigma));
 			}
 
-			return 0; //!!! Implement F(x,s) here.
+			double Fx = _cdf(x);
+			double A = pow(Fx, 1 + sigma * s) / (1 + sigma * s);
+			double B = _2F1(1 + sigma * s, sigma * s, 2 + sigma * s, Fx) / _mgf(s);
+
+			return A * B;
 		}
 
 #ifdef _DEBUG
