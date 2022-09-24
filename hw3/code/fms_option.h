@@ -7,6 +7,10 @@
 
 namespace fms::option {
 
+	inline const double NaN = std::numeric_limits<double>::quiet_NaN();
+	inline const double eps = std::numeric_limits<double>::epsilon();
+
+
 	// F <= k iff X <= (log(k/f) + kappa(s))/s
 	inline double moneyness(double f, double s, double k, const distribution& m = distribution_normal{})
 	{
@@ -51,9 +55,6 @@ namespace fms::option {
 	// p = put(f, implied(f, p, k, m), k, m)
 	inline double implied(double f, double p, double k, double s = 0, unsigned n = 0, double tol = 0)
 	{
-		static const double NaN = std::numeric_limits<double>::quiet_NaN();
-		static const double eps = std::numeric_limits<double>::epsilon();
-
 		// max(k - f,0) >= k - f
 		// max(k - f,0) <= k
 		if (p <= std::max(k - f, 0.) || p >= k) {
@@ -95,7 +96,6 @@ namespace fms::option {
 #ifdef _DEBUG
 	inline bool test_implied()
 	{
-		static const double eps = std::numeric_limits<double>::epsilon();
 		{
 			double f = 100;
 			double s = 0.2;

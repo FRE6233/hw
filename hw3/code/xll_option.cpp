@@ -45,3 +45,5 @@ double WINAPI xll_option_put(double f, double s, double k, HANDLEX m)
 
 	return option::put(f, s, k, *pm);
 }
+
+//!!! AddIn xai_option_implied

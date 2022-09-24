@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5FF3A426-A363-4EF6-B70F-CB3B97E716C8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xll_FRE6233", "FRE6233.vcxproj", "{6037FF2B-867B-45E1-B580-347063DC9EFB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{367249BB-B8A3-4671-B095-A5DB904DBD6D} = {367249BB-B8A3-4671-B095-A5DB904DBD6D}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xll", "..\..\xll\xll.vcxproj", "{367249BB-B8A3-4671-B095-A5DB904DBD6D}"
 EndProject
@@ -36,9 +39,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{367249BB-B8A3-4671-B095-A5DB904DBD6D} = {5FF3A426-A363-4EF6-B70F-CB3B97E716C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4538BD52-D09C-4E0F-9381-AAEF95FF631C}
