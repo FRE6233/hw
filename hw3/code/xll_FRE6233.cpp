@@ -1,19 +1,22 @@
 ﻿// xll_FRE6233.cpp - tests
 #include "fms_hypergeometric.h"
 #include "fms_distribution_logistic.h"
+#include "fms_option.h"
 #include "xll_FRE6233.h"
 
 using namespace xll;
+using namespace fms;
 
 #ifdef _DEBUG
 
 int FRE6233_test()
 {
 	try {
-		ensure(fms::test_2F1());
-		fms::distribution_logistic logistic;
+		ensure(test_2F1());
+		distribution_logistic logistic;
 		ensure(logistic.test_cdf());
 		ensure(logistic.test_cgf());
+		ensure(option::test_implied());
 		// ...
 	}
 	catch (const std::exception& ex) {

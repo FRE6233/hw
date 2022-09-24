@@ -12,26 +12,26 @@ namespace fms {
 		{
 			return _pdf(x, s);
 		}
-		// cumulative distribution function
-		double cdf(double x, double s = 0) const
+		// cumulative distribution function and derivatives
+		double cdf(double x, double s = 0, unsigned nx = 0, unsigned ns = 0) const
 		{
-			return _cdf(x, s);
+			return _cdf(x, s, nx, ns);
 		}
 		// moment generating function
-		double mgf(double s) const
+		double mgf(double s, unsigned n = 0) const
 		{
-			return _mgf(s);
+			return _mgf(s, n);
 		}
 		// cumulant generating function
-		double cgf(double s) const
+		double cgf(double s, unsigned n = 0) const
 		{
-			return _cgf(s);
+			return _cgf(s, n);
 		}
 	private:
 		virtual double _pdf(double x, double s) const = 0;
-		virtual double _cdf(double x, double s) const = 0;
-		virtual double _mgf(double s) const = 0;
-		virtual double _cgf(double s) const = 0;
+		virtual double _cdf(double x, double s, unsigned nx, unsigned ns) const = 0;
+		virtual double _mgf(double s, unsigned n) const = 0;
+		virtual double _cgf(double s, unsigned n) const = 0;
 	};
 	
 }

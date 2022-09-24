@@ -20,10 +20,12 @@ namespace fms {
 			return (exp(s * x) / mgf(s)) * exs / (sigma * exsp1 * exsp1);
 		}
 
+#pragma warning(push)
+#pragma warning(disable: 4100)
 		// F(x) = 1/(1 + e^{-x/sigma}), s = 0
 		// F(x, s) = F(x)^{1 + sigma s}/(1 + sigma s) 
 		//           2F1(1 + sigma s, sigma s, 2 + sigma s, F(x))/mgf(s), -1/sigma < s < 1/sigma
-		double _cdf(double x, double s = 0) const override
+		double _cdf(double x, double s = 0, unsigned nx = 0, unsigned ns = 0) const override
 		{
 			if (s == 0) {
 				return 1 / (1 + exp(-x / sigma));
@@ -35,6 +37,7 @@ namespace fms {
 
 			return A * B;
 		}
+#pragma warning(pop)
 
 #ifdef _DEBUG
 		bool test_cdf() const
@@ -63,8 +66,8 @@ namespace fms {
 		}
 #endif // _DEBUG
 
-		// moment generating function E[e^{sX}]
-		double _mgf(double s) const override
+		// moment generating function E[e^{sX}] = pi sigma s/sin(pi sigma s)
+		double _mgf(double s, unsigned n = 0) const override
 		{
 			// 1 + sigma s > 0 and 1 - sigma s > 0
 			if (fabs(s * sigma) >= 1) {
@@ -73,11 +76,23 @@ namespace fms {
 
 			double pss = M_PI * sigma * s;
 
-			return s == 0 ? 1 : pss / sin(pss);
+			if (s == 0) {
+				return n == 0 ? 1
+					: std::numeric_limits<double>::quiet_NaN(); //!!! fix
+			}
+
+			double spss = sin(pss);
+			double cpss = cos(pss);
+
+			return n == 0 ? pss / spss 
+				: n == 1 ? M_PI * sigma * (spss - pss * cpss)/(spss * spss)
+				: std::numeric_limits<double>::quiet_NaN();
 		}
-		double _cgf(double s) const override
+		double _cgf(double s, unsigned n = 0) const override
 		{
-			return log(mgf(s));
+			return n == 0 ? log(_mgf(s))
+				: n == 1 ? _mgf(s, 1) / _mgf(s)
+				: std::numeric_limits<double>::quiet_NaN();
 		}
 #ifdef _DEBUG
 		bool test_cgf() const
