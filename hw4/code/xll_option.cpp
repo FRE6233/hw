@@ -11,7 +11,7 @@ static distribution_normal normal;
 AddIn xai_option_moneyness(
 	Function(XLL_DOUBLE, "xll_option_moneyness", "OPTION.MONEYNESS")
 	.Arguments({
-		Arg(XLL_DOUBLE, "f", "is the forwar4d."),
+		Arg(XLL_DOUBLE, "f", "is the forward."),
 		Arg(XLL_DOUBLE, "s", "is the vol."),
 		Arg(XLL_DOUBLE, "k", "is the strike."),
 		Arg(XLL_HANDLEX, "m", "is a handle to the underlying distribution. Default is normal.")
@@ -30,7 +30,7 @@ double WINAPI xll_option_moneyness(double f, double s, double k, HANDLEX m)
 AddIn xai_option_put(
 	Function(XLL_DOUBLE, "xll_option_put", "OPTION.PUT")
 	.Arguments({
-		Arg(XLL_DOUBLE, "f", "is the forwar4d."),
+		Arg(XLL_DOUBLE, "f", "is the forward."),
 		Arg(XLL_DOUBLE, "s", "is the vol."),
 		Arg(XLL_DOUBLE, "k", "is the strike."),
 		Arg(XLL_HANDLEX, "m", "is a handle to the underlying distribution. Default is normal.")
@@ -47,3 +47,4 @@ double WINAPI xll_option_put(double f, double s, double k, HANDLEX m)
 }
 
 //!!! AddIn xai_option_implied
+//!!! use auto [s, ds, n] = option::implied to get all outputs, return s
