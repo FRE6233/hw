@@ -17,6 +17,31 @@ $I^2 = \int_0^{2\pi}\int_0^\infty e^{-\pi r^2}\,r\,dr\,d\theta$.
 Note $de^{-\pi r^2} = -2\pi r e^{-\pi r^2}\,dr$
 so $\int re^{-\pi r^2/2} = -e^{-\pi r^2}/2\pi$.
 
+<details>
+<summary>Solution</summary>
+Since $dx = \cos\theta\,dr + -r\sin\theta\,d\theta$ and $dy = \sin\theta\,dr + r\cos\theta\,d\theta$
+we have 
+$$
+\begin{aligned}
+dx\,dy &= (\cos\theta\,dr)(r\cos\theta\,d\theta) - (r\sin\theta\,d\theta)(\sin\theta\,dr)\\
+	&= (r\cos^2\theta + r\sin^2\theta)\,dr\,d\theta \\
+	&= r\,dr\,d\theta \\
+\end{aligned}
+$$
+<!--
+	&= (r\cos^2\theta + r\sin^2\theta)\,dr\,d\theta \\
+-->
+$ we use $dr\,d\theta = -dr\,d\theta$, $dr\,dr = 0$, and $d\theta\,d\theta = 0$.
+$$
+\begin{aligned}
+\int_0^{2\pi}\int_0^\infty e^{-\pi r^2}\,r\,dr\,d\theta 
+	&= \int_0^{2\pi} -e^{-\pi r^2} |_{r=0}^\infty d\theta \\
+	&= \int_0^{2\pi} 1 d\theta \\
+	&= 2\pi \\
+\end{aligned}
+##
+</details>
+
 __Exercise 2__. _Show $\int_{-\infty}^\infty e^{-\alpha x^2}\,dx = \sqrt{\pi/\alpha}$, $\alpha > 0$_.
 
 The standard normal density function is $\phi(x) = e^{-x^2/2}/\sqrt{2\pi} > 0$, $-\infty < x < \infty$.
@@ -40,6 +65,21 @@ __Exercise 4__. _Show $E[e^{sZ}] = e^{s^2/2}$_.
 
 _Hint_: $sz - z^2/2 = s^2/2 - (z - s)^2/2$.
 
+<details>
+<summary>Solution</summary>
+$$
+\begin{aligned}
+E[e^{sZ}] &= \int_{-\infty}^\infty e^{sz} e^{-z^2/2}\,dz/\sqrt{2\pi} \\
+	&= \int_{-\infty}^\infty e^{sz - z^2/2}\,dz/\sqrt{2\pi} \\
+	&= \int_{-\infty}^\infty e^{sz - z^2/2}\,dz/\sqrt{2\pi} \\
+	&= \e^{s^2/2} \int_{-\infty}^\infty e^{- (z - s)^2/2}\,dz/\sqrt{2\pi} \\
+	&= e^{s^2/2} \int_{-\infty}^\infty e^{- z^2/2}\,dz/\sqrt{2\pi} \\
+	&= e^{s^2/2} \\
+\end{aligned}
+$$
+Using $z \mapsto z + s$.
+</details>
+
 We have $(s^2/2)^n/n! = \mu_{2n}s^{2n}/(2n)!$ so $\mu_{2n} = (2n)!/2^n n!$.
 All odd moments are 0. The fourth moment is $\mu_4 = 4!/2^2 2! = 24/8 = 3$.
 
@@ -58,7 +98,7 @@ $t\ge0$.  The forward value of a put with strike $k$ and expiration $t$
 is $E[\max\{k - F_t, 0\}] = E[(k - F_t)^+]$.  
 Since 
 $$
-	F = f^{-s^2/2 + sZ}
+	F = fe^{-s^2/2 + sZ}
 $$
 where $s = \sigma\sqrt{t}$ and $Z$ is standard normal, has the same distribution as $F_t$ we need
 to compute $E[(k - F)^+]$.
