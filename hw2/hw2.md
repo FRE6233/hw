@@ -134,7 +134,30 @@ __Exercise 6.__ _Show $E[(k - F)^+] = kP(F\le k) - fP(Fe^{s^2}\le k)$_.
 _Hint_: Use $\max\{x,0\} = x^+ = x1(x \ge 0)$ where $1(x\ge0) = 1$ if $x\ge0$ and $1(x\ge0) = 0$ if $x < 0$.
 You will also need $E[e^{sZ} f(Z)] = E[e^{sZ}] E[f(Z + s)]$.
 
+<details>
+<summary>Solution</summary>
+$E[(k - F)^+] = E[(k - F)1(F\le k)] = kP(F\le k) - E[F1(F\le k)]$
+
+$E[F1(F\le k)] = E[fe^{-s^2/2 + sZ}1(fe^{-s^2/2 + sZ} \le k)]
+= fE[1(fe^{-s^2/2 + s(Z+s)} \le k)] = fP(Fe^{s^2}\le k]$.
+</details>
+
 __Exercise 7.__ _Show $F\le k$ if and only if $Z\le (\log k/f + s^2/2)/s$
 and $Fe^{s^2}\le k$ if and only if $Z + s \le (\log k/f + s^2/2)/s$_.
+
+
+<details>
+<summary>Solution</summary>
+$$
+\begin{aligned}
+	F &\le k \\
+	fe^{-s^2/2 + sZ} &\le k \\
+	e^{-s^2/2 + sZ} &\le k/f \\
+	-s^2/2 + sZ &\le \log(k/f) \\
+	sZ &\le \log(k/f) + s^2/2 \\
+	Z &\le (\log(k/f) + s^2/2)/s \\
+\end{aligned}
+$$
+</details>
 
 __Exercise 8.__ _Follow the directions in this [video](https://urldefense.com/v3/__https://nyu.zoom.us/rec/share/sOWDzECOg9NTA7vWe1-HHUn4pfKVaQDLHqSV_kzp-ahGF6szMYZyg5ZV8Fz4ke2q.XUuDLn6WR-J5fbse__;!!BhJSzQqDqA!UwblKz5iwFI0FozKCe7Bf8FDQSaoSVKHCAYmQco5BUdpgCC0GarUovQ8KiqmzHuwcVcTSGaGuOiIvWIt$)_.
