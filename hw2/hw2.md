@@ -1,3 +1,6 @@
+---
+title: Homework 2
+...
 \newcommand{\Var}{\operatorname{Var}}
 \newcommand{\erf}{\operatorname{erf}}
 
@@ -39,10 +42,15 @@ $$
 	&= \int_0^{2\pi} 1 d\theta \\
 	&= 2\pi \\
 \end{aligned}
-##
+$$
 </details>
 
 __Exercise 2__. _Show $\int_{-\infty}^\infty e^{-\alpha x^2}\,dx = \sqrt{\pi/\alpha}$, $\alpha > 0$_.
+
+<details>
+<summary>Solution</summary>
+We need $\alpha x^2 = \pi z^2$ so substitute $x = \sqrt{\pi/\alpha} z$.
+</details>
 
 The standard normal density function is $\phi(x) = e^{-x^2/2}/\sqrt{2\pi} > 0$, $-\infty < x < \infty$.
 The above shows $\int_{-\infty}^\infty \phi(x)\,dx = 1$ so $\phi$ is a probability density.
@@ -55,6 +63,12 @@ $$
 $$
 
 __Exercise__ 3. _Show $\Phi(z) = (1 + \erf(z/\sqrt{2}))/2$_.
+
+<details>
+<summary>Solution</summary>
+Use $\int_{-\infty}^x e^{-z^2/2}\,dz/\sqrt{2\pi} = 1/2 + \int_0^x e^{-z^2/2}\,dz/\sqrt{2\pi}$
+and $t^2 = z^2/2$ so $t = z/\sqrt{2}$.
+</details>
 
 For any function $f$, $E[f(Z)] = \int_{-\infty}^\infty f(z) e^{-z^2/2}\,dz/\sqrt{2\pi}$.
 
@@ -71,8 +85,7 @@ $$
 \begin{aligned}
 E[e^{sZ}] &= \int_{-\infty}^\infty e^{sz} e^{-z^2/2}\,dz/\sqrt{2\pi} \\
 	&= \int_{-\infty}^\infty e^{sz - z^2/2}\,dz/\sqrt{2\pi} \\
-	&= \int_{-\infty}^\infty e^{sz - z^2/2}\,dz/\sqrt{2\pi} \\
-	&= \e^{s^2/2} \int_{-\infty}^\infty e^{- (z - s)^2/2}\,dz/\sqrt{2\pi} \\
+	&= e^{s^2/2} \int_{-\infty}^\infty e^{- (z - s)^2/2}\,dz/\sqrt{2\pi} \\
 	&= e^{s^2/2} \int_{-\infty}^\infty e^{- z^2/2}\,dz/\sqrt{2\pi} \\
 	&= e^{s^2/2} \\
 \end{aligned}
@@ -86,6 +99,19 @@ All odd moments are 0. The fourth moment is $\mu_4 = 4!/2^2 2! = 24/8 = 3$.
 __Exercise 5__. _Show $E[e^{sZ} f(Z)] = E[e^{sZ}] E[f(Z + s)]$_.
 
 _Hint_: $sz - z^2/2 = s^2/2 - (z - s)^2/2$.
+
+<details>
+<summary>Solution</summary>
+$$
+\begin{aligned}
+E[e^{sZ}f(Z)] &= \int_{-\infty}^\infty e^{sz} f(z) e^{-z^2/2}\,dz/\sqrt{2\pi} \\
+	&= \int_{-\infty}^\infty e^{sz - z^2/2} f(z)\,dz/\sqrt{2\pi} \\
+	&= e^{s^2/2} \int_{-\infty}^\infty e^{- (z - s)^2/2} f(z)\,dz/\sqrt{2\pi} \\
+	&= e^{s^2/2} \int_{-\infty}^\infty e^{- z^2/2} f(z + s)\,dz/\sqrt{2\pi} \\
+	&= E[e^{sZ}] E[f(Z + s)]	
+\end{aligned}
+$$
+</details>
 
 In the Fischer Black model the forward value of a stock at time $t$
 is
