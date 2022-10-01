@@ -1,4 +1,5 @@
-// fms_option.h - Forward option pricing model F = f e^{-kappa(s) + sX}
+// fms_option.h - Forward option pricing model F = f e^{-kappa(s) + sX},
+// where f = E[F], s^2 = Var(log(F)), and X is mean 0, variance 1.
 #pragma once
 #include <cmath>
 #include <algorithm>
@@ -63,7 +64,7 @@ namespace fms::option {
 		return 0;
 	}
 #endif // 0
-	// dp/ds
+	// dp/ds = -f d/ds P(x, s)
 	inline double vega(double f, double s, double k, const distribution& m = distribution_normal{})
 	{
 		double x = moneyness(f, s, k, m);

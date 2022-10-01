@@ -48,3 +48,26 @@ double WINAPI xll_option_put(double f, double s, double k, HANDLEX m)
 
 //!!! AddIn xai_option_implied
 //!!! use auto [s, ds, n] = option::implied to get all outputs, return s
+
+AddIn xai_option_implied(
+	Function(XLL_DOUBLE, "xll_option_implied", "OPTION.IMPLIED")
+	.Arguments({
+		Arg(XLL_DOUBLE, "f", "is the forward."),
+		Arg(XLL_DOUBLE, "p", "is the put price."),
+		Arg(XLL_DOUBLE, "k", "is the strike."),
+		Arg(XLL_DOUBLE, "s", "is the initial implied vol guess."),
+		Arg(XLL_WORD, "n", "is the maximum number of iterations."),
+		Arg(XLL_DOUBLE, "tol", "is the convergence tolerance.")
+		})
+	.Category(CATEGORY)
+	.FunctionHelp("Return the implied vol given put price.")
+);
+double WINAPI xll_option_implied(double f, double p, double k, 
+	double s, WORD n, double tol)
+{
+#pragma XLLEXPORT
+	auto [vol, err, iter] = option::implied(f, p, k, s, n, tol);
+
+	return vol;
+}
+
