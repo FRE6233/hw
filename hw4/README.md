@@ -1,4 +1,4 @@
-# hw3
+# hw4
 
 Do the exercises in [Logistic Distribution](lo.pdf).
 
