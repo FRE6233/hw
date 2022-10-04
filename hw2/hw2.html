@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>hw2</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="math.css" />
+  <script defer=""
+  src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: true
+   });
+}}});
+  </script>
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h2 id="due-2pm-on-9152022">Due 2pm on 9/15/2022</h2>
+<p>Black-Scholes/Merton European option pricing.</p>
+<p>You have probably already implemented this in an earlier course but
+this homework will provide you with a new angle that can be generalized
+to any model of stock price.</p>
+<p><strong>Exercise 1</strong>. <em>Show <span
+class="math inline">\int_{-\infty}^\infty e^{-\pi x^2}\,dx =
+1</span></em>.</p>
+<p><em>Hint</em>: Let <span class="math inline">I =
+\int_{-\infty}^\infty e^{-\pi x^2}\,dx</span> so <span
+class="math inline">I^2 = \int_{-\infty}^\infty\int_{-\infty}^\infty
+e^{-\pi x^2}e^{-\pi y^2}\,dx\,dy</span>. Change to polar coordinates
+<span class="math inline">x = r\cos\theta</span>, <span
+class="math inline">y = r\sin\theta</span> and show <span
+class="math inline">I^2 = \int_0^{2\pi}\int_0^\infty e^{-\pi
+r^2}\,r\,dr\,d\theta</span>. Note <span class="math inline">de^{-\pi
+r^2} = -2\pi r e^{-\pi r^2}\,dr</span> so <span class="math inline">\int
+re^{-\pi r^2/2} = -e^{-\pi r^2}/2\pi</span>.</p>
+<details>
+<summary>
+Solution
+</summary>
+Since <span class="math inline">dx = \cos\theta\,dr +
+-r\sin\theta\,d\theta</span> and <span class="math inline">dy =
+\sin\theta\,dr + r\cos\theta\,d\theta</span> we have <span
+class="math display">
+\begin{aligned}
+dx\,dy &amp;= (\cos\theta\,dr)(r\cos\theta\,d\theta) -
+(r\sin\theta\,d\theta)(\sin\theta\,dr)\\
+    &amp;= (r\cos^2\theta + r\sin^2\theta)\,dr\,d\theta \\
+    &amp;= r\,dr\,d\theta \\
+\end{aligned}
+</span> <!--
+    &= (r\cos^2\theta + r\sin^2\theta)\,dr\,d\theta \\
+--> $ we use <span class="math inline">dr\,d\theta =
+-dr\,d\theta</span>, <span class="math inline">dr\,dr = 0</span>, and
+<span class="math inline">d\theta\,d\theta = 0</span>. $$
+<span class="math display">\begin{aligned}
+\int_0^{2\pi}\int_0^\infty e^{-\pi r^2}\,r\,dr\,d\theta
+    &amp;= \int_0^{2\pi} -e^{-\pi r^2} |_{r=0}^\infty d\theta \\
+    &amp;= \int_0^{2\pi} 1 d\theta \\
+    &amp;= 2\pi \\
+\end{aligned}</span>
+<h2 id="section"></h2>
+</details>
+<p><strong>Exercise 2</strong>. <em>Show <span
+class="math inline">\int_{-\infty}^\infty e^{-\alpha x^2}\,dx =
+\sqrt{\pi/\alpha}</span>, <span class="math inline">\alpha &gt;
+0</span></em>.</p>
+<p>The standard normal density function is <span
+class="math inline">\phi(x) = e^{-x^2/2}/\sqrt{2\pi} &gt; 0</span>,
+<span class="math inline">-\infty &lt; x &lt; \infty</span>. The above
+shows <span class="math inline">\int_{-\infty}^\infty \phi(x)\,dx =
+1</span> so <span class="math inline">\phi</span> is a probability
+density. The cumulative distribution function is <span
+class="math inline">\Phi(x) = \int_{-\infty}^x f(u)\,du</span>. Let
+<span class="math inline">Z</span> be the random variable defined by
+this so <span class="math inline">P(Z\le z) = \Phi(z)</span> and</p>
+<p>This function is not part of the standard C library, but
+<code>erf</code> is. <span class="math display">
+    \operatorname{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2}\,dt
+</span></p>
+<p><strong>Exercise</strong> 3. <em>Show <span
+class="math inline">\Phi(z) = (1 +
+\operatorname{erf}(z/\sqrt{2}))/2</span></em>.</p>
+<p>For any function <span class="math inline">f</span>, <span
+class="math inline">E[f(Z)] = \int_{-\infty}^\infty f(z)
+e^{-z^2/2}\,dz/\sqrt{2\pi}</span>.</p>
+<p>To compute all moments <span class="math inline">\mu_n =
+E[Z^n]</span> we can use the formula for the <em>moment generating
+function</em> <span class="math inline">E[e^{sZ}] = \sum_{n=0}^\infty
+E[Z^n]s^n/n! = \sum_{n=0}^\infty \mu_n s^n/n!</span>.</p>
+<p><strong>Exercise 4</strong>. <em>Show <span
+class="math inline">E[e^{sZ}] = e^{s^2/2}</span></em>.</p>
+<p><em>Hint</em>: <span class="math inline">sz - z^2/2 = s^2/2 - (z -
+s)^2/2</span>.</p>
+<details>
+<summary>
+Solution
+</summary>
+<span class="math display">
+\begin{aligned}
+E[e^{sZ}] &amp;= \int_{-\infty}^\infty e^{sz} e^{-z^2/2}\,dz/\sqrt{2\pi}
+\\
+    &amp;= \int_{-\infty}^\infty e^{sz - z^2/2}\,dz/\sqrt{2\pi} \\
+    &amp;= \int_{-\infty}^\infty e^{sz - z^2/2}\,dz/\sqrt{2\pi} \\
+    &amp;= \e^{s^2/2} \int_{-\infty}^\infty e^{- (z -
+s)^2/2}\,dz/\sqrt{2\pi} \\
+    &amp;= e^{s^2/2} \int_{-\infty}^\infty e^{- z^2/2}\,dz/\sqrt{2\pi}
+\\
+    &amp;= e^{s^2/2} \\
+\end{aligned}
+</span> Using <span class="math inline">z \mapsto z + s</span>.
+</details>
+<p>We have <span class="math inline">(s^2/2)^n/n! =
+\mu_{2n}s^{2n}/(2n)!</span> so <span class="math inline">\mu_{2n} =
+(2n)!/2^n n!</span>. All odd moments are 0. The fourth moment is <span
+class="math inline">\mu_4 = 4!/2^2 2! = 24/8 = 3</span>.</p>
+<p><strong>Exercise 5</strong>. <em>Show <span
+class="math inline">E[e^{sZ} f(Z)] = E[e^{sZ}] E[f(Z +
+s)]</span></em>.</p>
+<p><em>Hint</em>: <span class="math inline">sz - z^2/2 = s^2/2 - (z -
+s)^2/2</span>.</p>
+<p>In the Fischer Black model the forward value of a stock at time <span
+class="math inline">t</span> is <span class="math display">
+    F_t = fe^{-\sigma^2t/2 + \sigma B_t}
+</span> where <span class="math inline">(B_t)_{t\ge0}</span> is standard
+Brownian motion. Recall <span class="math inline">E[B_t] = 0</span> and
+<span class="math inline">\operatorname{Var}(B_t) = t</span>, <span
+class="math inline">t\ge0</span>. The forward value of a put with strike
+<span class="math inline">k</span> and expiration <span
+class="math inline">t</span> is <span class="math inline">E[\max\{k -
+F_t, 0\}] = E[(k - F_t)^+]</span>.<br />
+Since <span class="math display">
+    F = fe^{-s^2/2 + sZ}
+</span> where <span class="math inline">s = \sigma\sqrt{t}</span> and
+<span class="math inline">Z</span> is standard normal, has the same
+distribution as <span class="math inline">F_t</span> we need to compute
+<span class="math inline">E[(k - F)^+]</span>.</p>
+<p><strong>Exercise 6.</strong> <em>Show <span class="math inline">E[(k
+- F)^+] = kP(F\le k) - fP(Fe^{s^2}\le k)</span></em>.</p>
+<p><em>Hint</em>: Use <span class="math inline">\max\{x,0\} = x^+ = x1(x
+\ge 0)</span> where <span class="math inline">1(x\ge0) = 1</span> if
+<span class="math inline">x\ge0</span> and <span
+class="math inline">1(x\ge0) = 0</span> if <span class="math inline">x
+&lt; 0</span>. You will also need <span class="math inline">E[e^{sZ}
+f(Z)] = E[e^{sZ}] E[f(Z + s)]</span>.</p>
+<details>
+<summary>
+Solution
+</summary>
+<p><span class="math inline">E[(k - F)^+] = E[(k - F)1(F\le k)] =
+kP(F\le k) - E[F1(F\le k)]</span></p>
+<span class="math inline">E[F1(F\le k)] = E[fe^{-s^2/2 + sZ}1(fe^{-s^2/2
++ sZ} \le k)] = fE[1(fe^{-s^2/2 + s(Z+s)} \le k)] = fP(Fe^{s^2}\le
+k]</span>.
+</details>
+<p><strong>Exercise 7.</strong> <em>Show <span class="math inline">F\le
+k</span> if and only if <span class="math inline">Z\le (\log k/f +
+s^2/2)/s</span> and <span class="math inline">Fe^{s^2}\le k</span> if
+and only if <span class="math inline">Z + s \le (\log k/f +
+s^2/2)/s</span></em>.</p>
+<details>
+<summary>
+Solution
+</summary>
+<span class="math display">
+\begin{aligned}
+    F &amp;\le k \\
+    fe^{-s^2/2 + sZ} &amp;\le k \\
+    e^{-s^2/2 + sZ} &amp;\le k/f \\
+    -s^2/2 + sZ &amp;\le \log(k/f) \\
+    sZ &amp;\le \log(k/f) + s^2/2 \\
+    Z &amp;\le (\log(k/f) + s^2/2)/s \\
+\end{aligned}
+</span>
+</details>
+<p><strong>Exercise 8.</strong> <em>Follow the directions in this <a
+href="https://urldefense.com/v3/__https://nyu.zoom.us/rec/share/sOWDzECOg9NTA7vWe1-HHUn4pfKVaQDLHqSV_kzp-ahGF6szMYZyg5ZV8Fz4ke2q.XUuDLn6WR-J5fbse__;!!BhJSzQqDqA!UwblKz5iwFI0FozKCe7Bf8FDQSaoSVKHCAYmQco5BUdpgCC0GarUovQ8KiqmzHuwcVcTSGaGuOiIvWIt$">video</a></em>.</p>
+</body>
+</html>
