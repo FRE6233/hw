@@ -15,7 +15,6 @@ namespace fms::option {
 	inline const double NaN = std::numeric_limits<double>::quiet_NaN();
 	inline const double eps = std::numeric_limits<double>::epsilon();
 
-
 	// F <= k iff X <= (log(k/f) + kappa(s))/s
 	inline double moneyness(double f, double s, double k, const distribution& m = distribution_normal{})
 	{
@@ -51,6 +50,7 @@ namespace fms::option {
 	{
 		return put(f, s, k, m) + f - k;
 	}
+
 	// dp/df = d/df E[(k - F)^+] = -E[1(F <= k) dF/df] = P^s(F <= k)
 	inline double delta(double f, double s, double k, const distribution& m = distribution_normal{})
 	{
@@ -152,6 +152,11 @@ namespace fms::option {
 		// Black to Black-Scholes/Merton parameters
 		inline std::tuple<double, double, double> Dfs(double r, double s0, double sigma, double t)
 		{
+			if (s0 < 0 || sigma < 0 || t < 0) {
+				// NaN indicates which condition failed
+				return { s0 < 0 ? NaN : s0, sigma < 0 ? NaN : sigma, t < 0 ? NaN : t };
+			}
+
 			double D = exp(-r * t);
 
 			return { D, s0 / D, sigma * sqrt(t) };
@@ -187,7 +192,7 @@ namespace fms::option {
 			return D * option::call(f, s, o.k, m);
 		}
 
-		// delta = dp/ds_0 = d/ds_0 D E[nu(F/D)] = D E[nu'(F/D)] 
+		// delta = dp/ds_0 = d/ds_0 D E[nu(F/D)] = D E[nu'(F/D) dF/df dF/ds0] = E^s[nu'(F/D]  
 		template<class O>
 		inline double delta(double r, double s0, double sigma, const O& o, const distribution& m = distribution_normal{});
 
@@ -206,6 +211,13 @@ namespace fms::option {
 
 			return option::delta(f, s, o.k, m);
 		}
+
+#ifdef _DEBUG
+		inline bool test_bsm_delta()
+		{
+			return true;
+		}
+#endif // _DEBUG
 
 		// gamma
 		// vega

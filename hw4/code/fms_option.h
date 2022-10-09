@@ -51,12 +51,12 @@ namespace fms::option {
 	{
 		return put(f, s, k, m) + f - k;
 	}
-#if 0
-	// dp/df
+	// dp/df = P^s(F <= k)
 	inline double delta(double f, double s, double k, const distribution& m = distribution_normal{})
 	{
-		return 0;
+		return 0; //!!! implement
 	}
+#if 0
 
 	// d^2p/df^2
 	inline double gamma(double f, double s, double k, const distribution& m = distribution_normal{})

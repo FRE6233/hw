@@ -46,6 +46,26 @@ double WINAPI xll_option_put(double f, double s, double k, HANDLEX m)
 	return option::put(f, s, k, *pm);
 }
 
+
+AddIn xai_option_delta(
+	Function(XLL_DOUBLE, "xll_option_delta", "OPTION.DELTA")
+	.Arguments({
+		Arg(XLL_DOUBLE, "f", "is the forward."),
+		Arg(XLL_DOUBLE, "s", "is the vol."),
+		Arg(XLL_DOUBLE, "k", "is the strike."),
+		Arg(XLL_HANDLEX, "m", "is a handle to the underlying distribution. Default is normal.")
+		})
+	.Category(CATEGORY)
+	.FunctionHelp("Return the forward delta option value.")
+);
+double WINAPI xll_option_delta(double f, double s, double k, HANDLEX m)
+{
+#pragma XLLEXPORT
+	distribution* pm = m ? safe_pointer<distribution>(m) : &normal;
+
+	return option::delta(f, s, k, *pm);
+}
+
 //!!! AddIn xai_option_implied
 //!!! use auto [s, ds, n] = option::implied to get all outputs, return s
 
