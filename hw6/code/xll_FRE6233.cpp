@@ -17,6 +17,7 @@ int FRE6233_test()
 		ensure(logistic.test_cdf());
 		ensure(logistic.test_cgf());
 		ensure(option::test_implied());
+		ensure(option::test_put_delta());
 		// ...
 	}
 	catch (const std::exception& ex) {

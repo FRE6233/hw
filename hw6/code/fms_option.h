@@ -51,22 +51,51 @@ namespace fms::option {
 		return put(f, s, k, m) + f - k;
 	}
 
-	// dp/df = d/df E[(k - F)^+] = -E[1(F <= k) dF/df] = P^s(F <= k)
-	inline double delta(double f, double s, double k, const distribution& m = distribution_normal{})
+	// dp/df = d/df E[(k - F)^+] = -E[1(F <= k) dF/df] = -P^s(F <= k)
+	inline double put_delta(double f, double s, double k, const distribution& m = distribution_normal{})
 	{
 		double x = moneyness(f, s, k, m);
 
-		return m.cdf(x, s);
+		return -m.cdf(x, s);
+	}
+	// dp/df = d/df E[(F - k)^+] = E[1(F >= k) dF/df] = P^s(F >= k) = 1 - P^s(F <= k)
+	inline double call_delta(double f, double s, double k, const distribution& m = distribution_normal{})
+	{
+		double x = moneyness(f, s, k, m);
+
+		return 1 - m.cdf(x, s);
 	}
 
-#if 0
+#ifdef _DEBUG
+	inline bool test_put_delta()
+	{
+		{
+			// f(x + dx) - f(x - dx) = f(x) + f'(x) dx + (1/2) f''(x) dx^2 + O(dx^3)
+			//                       -(f(x) - f'(x) dx + (1/2) f''(x) dx^2 + O(dx^3)
+			//                       = 2f'(x) dx + O(dx^3)
+			// f'(x) = (f(x + dx) - f(x - dx))/2dx + O(dx^2)
+			double f = 100;
+			double s = 0.1;
+			double k = 100;
+			for (auto df : { 0.1, 0.01, 0.001, 0.0001 }) {
+				double dp = (put(f + df, s, k) - put(f - df, s, k)) / (2 * df);
+				dp = dp;
+				//!!! if dp - put_delta is not close to df^2 return false
+			}
+		}
 
+		return true;
+	}
+#endif // _DEBUG
+
+#if 0
 	// d^2p/df^2
 	inline double gamma(double f, double s, double k, const distribution& m = distribution_normal{})
 	{
 		return 0;
 	}
 #endif // 0
+
 	// dp/ds = -f d/ds P(x, s)
 	inline double vega(double f, double s, double k, const distribution& m = distribution_normal{})
 	{
@@ -111,6 +140,7 @@ namespace fms::option {
 
 		return { s_, s_ - s, n0 };
 	}
+
 #ifdef _DEBUG
 	inline bool test_implied()
 	{
@@ -201,7 +231,7 @@ namespace fms::option {
 		{
 			auto [D, f, s] = Dfs(r, s0, sigma, o.t);
 
-			return option::delta(f, s, o.k, m);
+			return option::put_delta(f, s, o.k, m);
 		}
 
 		template<>
@@ -209,15 +239,9 @@ namespace fms::option {
 		{
 			auto [D, f, s] = Dfs(r, s0, sigma, o.t);
 
-			return option::delta(f, s, o.k, m);
+			return option::call_delta(f, s, o.k, m);
 		}
 
-#ifdef _DEBUG
-		inline bool test_bsm_delta()
-		{
-			return true;
-		}
-#endif // _DEBUG
 
 		// gamma
 		// vega
