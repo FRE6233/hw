@@ -70,9 +70,14 @@ namespace fms::option {
 	inline bool test_put_delta()
 	{
 		{
+			// f(x + dx) - f(x) = f'(x) dx + O(dx^2)
+			// One sided difference is O(dx)
+			// f'(x) = (f(x + dx) - f(x))/dx + O(dx)
+			//
 			// f(x + dx) - f(x - dx) = f(x) + f'(x) dx + (1/2) f''(x) dx^2 + O(dx^3)
-			//                       -(f(x) - f'(x) dx + (1/2) f''(x) dx^2 + O(dx^3)
+			//                       -(f(x) - f'(x) dx + (1/2) f''(x) dx^2 + O(dx^3))
 			//                       = 2f'(x) dx + O(dx^3)
+			// Symmetric difference is O(dx^2)
 			// f'(x) = (f(x + dx) - f(x - dx))/2dx + O(dx^2)
 			double f = 100;
 			double s = 0.1;

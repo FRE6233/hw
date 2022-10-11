@@ -120,7 +120,11 @@ _FPX* WINAPI xll_bsm_put_delta(double r, _FPX* ps0, _FPX* psigma, _FPX* pk, _FPX
 		int n = std::max({ ns0, nsigma, nk, nt });
 		result.resize(n, 1);
 		for (int i = 0; i < n; ++i) {
-			result[i] = option::bsm::delta(r, ps0->array[i%ns0], psigma->array[i%nsigma], option::bsm::put{pk->array[i%nk], pt->array[i % nt]}, *pm);
+			result[i] = option::bsm::delta(r, 
+				ps0->array[i%ns0], 
+				psigma->array[i%nsigma], 
+				option::bsm::put{pk->array[i%nk], pt->array[i % nt]},
+				*pm);
 		}
 	}
 	catch (const std::exception& ex) {
@@ -130,4 +134,5 @@ _FPX* WINAPI xll_bsm_put_delta(double r, _FPX* ps0, _FPX* psigma, _FPX* pk, _FPX
 	return result.get();
 }
 
-//!!! implement BSM.IMPLIED
+//!!! implement BSM.CALL.DELTA based on BSM.PUT.DELTA
+
