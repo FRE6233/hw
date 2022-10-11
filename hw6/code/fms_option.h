@@ -124,9 +124,9 @@ namespace fms::option {
 		}
 
 		double p_ = put(f, s, k);
-		double dp_ = vega(f, s, k); // dv/ds
+		double dp_ = vega(f, s, k); // dp/ds
 		double s_ = s - (p_ - p) / dp_; // Newton-Raphson
-		s_ = std::clamp(s_, s / 2, 2 * s);
+		s_ = std::clamp(s_, s / 2, 2 * s); // s/2 <= s_ <= 2s
 
 		unsigned n0 = 1;
 		while (fabs(s_ - s) > tol && n0 <= n) {
@@ -222,6 +222,7 @@ namespace fms::option {
 			return D * option::call(f, s, o.k, m);
 		}
 
+		// Chain rule d/ds0 = d/df df/ds0
 		// delta = dp/ds_0 = d/ds_0 D E[nu(F/D)] = D E[nu'(F/D) dF/df dF/ds0] = E^s[nu'(F/D]  
 		template<class O>
 		inline double delta(double r, double s0, double sigma, const O& o, const distribution& m = distribution_normal{});

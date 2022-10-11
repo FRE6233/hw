@@ -66,9 +66,6 @@ double WINAPI xll_option_delta(double f, double s, double k, HANDLEX m)
 	return option::delta(f, s, k, *pm);
 }
 
-//!!! AddIn xai_option_implied
-//!!! use auto [s, ds, n] = option::implied to get all outputs, return s
-
 AddIn xai_option_implied(
 	Function(XLL_DOUBLE, "xll_option_implied", "OPTION.IMPLIED")
 	.Arguments({

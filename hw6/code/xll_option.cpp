@@ -92,24 +92,42 @@ double WINAPI xll_bsm_put_value(double r, double s0, double sigma, double k, dou
 //!!! implement BSM.CALL.VALUE
 
 AddIn xai_bsm_put_delta(
-	Function(XLL_DOUBLE, "xll_bsm_put_delta", "BSM.PUT.DELTA")
+	Function(XLL_FPX, "xll_bsm_put_delta", "BSM.PUT.DELTA")
 	.Arguments({
 		Arg(XLL_DOUBLE, "r", "is the risk-neutral rate."),
-		Arg(XLL_DOUBLE, "s0", "is the spot."),
-		Arg(XLL_DOUBLE, "sigma", "is the volatility."),
-		Arg(XLL_DOUBLE, "k", "is the strike."),
-		Arg(XLL_DOUBLE, "t", "is the time in years to expiration."),
+		Arg(XLL_FPX, "s0", "is the spot."),
+		Arg(XLL_FPX, "sigma", "is the volatility."),
+		Arg(XLL_FPX, "k", "is the strike."),
+		Arg(XLL_FPX, "t", "is the time in years to expiration."),
 		Arg(XLL_HANDLEX, "m", "is a handle to the underlying distribution. Default is normal.")
 		})
 	.Category(CATEGORY)
 	.FunctionHelp("Return the forward put option value.")
 );
-double WINAPI xll_bsm_put_delta(double r, double s0, double sigma, double k, double t, HANDLEX m)
+_FPX* WINAPI xll_bsm_put_delta(double r, _FPX* ps0, _FPX* psigma, _FPX* pk, _FPX* pt, HANDLEX m)
 {
 #pragma XLLEXPORT
-	distribution* pm = m ? safe_pointer<distribution>(m) : &normal;
+	static FPX result;
 
-	return option::bsm::delta(r, s0, sigma, option::bsm::put{ k, t }, *pm);
+	try {
+		result[0] = option::NaN;
+		distribution* pm = m ? safe_pointer<distribution>(m) : &normal;
+
+		int ns0 = size(*ps0);
+		int nsigma = size(*psigma);
+		int nk = size(*pk);
+		int nt = size(*pt);
+		int n = std::max({ ns0, nsigma, nk, nt });
+		result.resize(n, 1);
+		for (int i = 0; i < n; ++i) {
+			result[i] = option::bsm::delta(r, ps0->array[i%ns0], psigma->array[i%nsigma], option::bsm::put{pk->array[i%nk], pt->array[i % nt]}, *pm);
+		}
+	}
+	catch (const std::exception& ex) {
+		XLL_ERROR(ex.what());
+	}
+
+	return result.get();
 }
 
 //!!! implement BSM.IMPLIED
