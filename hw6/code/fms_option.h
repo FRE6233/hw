@@ -15,7 +15,6 @@ namespace fms::option {
 	inline const double NaN = std::numeric_limits<double>::quiet_NaN();
 	inline const double eps = std::numeric_limits<double>::epsilon();
 
-
 	// F <= k iff X <= (log(k/f) + kappa(s))/s
 	inline double moneyness(double f, double s, double k, const distribution& m = distribution_normal{})
 	{
@@ -51,22 +50,57 @@ namespace fms::option {
 	{
 		return put(f, s, k, m) + f - k;
 	}
-	// dp/df = d/df E[(k - F)^+] = -E[1(F <= k) dF/df] = P^s(F <= k)
-	inline double delta(double f, double s, double k, const distribution& m = distribution_normal{})
+
+	// dp/df = d/df E[(k - F)^+] = -E[1(F <= k) dF/df] = -P^s(F <= k)
+	inline double put_delta(double f, double s, double k, const distribution& m = distribution_normal{})
 	{
 		double x = moneyness(f, s, k, m);
 
-		return m.cdf(x, s);
+		return -m.cdf(x, s);
+	}
+	// dp/df = d/df E[(F - k)^+] = E[1(F >= k) dF/df] = P^s(F >= k) = 1 - P^s(F <= k)
+	inline double call_delta(double f, double s, double k, const distribution& m = distribution_normal{})
+	{
+		double x = moneyness(f, s, k, m);
+
+		return 1 - m.cdf(x, s);
 	}
 
-#if 0
+#ifdef _DEBUG
+	inline bool test_put_delta()
+	{
+		{
+			// f(x + dx) - f(x) = f'(x) dx + O(dx^2)
+			// One sided difference is O(dx)
+			// f'(x) = (f(x + dx) - f(x))/dx + O(dx)
+			//
+			// f(x + dx) - f(x - dx) = f(x) + f'(x) dx + (1/2) f''(x) dx^2 + O(dx^3)
+			//                       -(f(x) - f'(x) dx + (1/2) f''(x) dx^2 + O(dx^3))
+			//                       = 2f'(x) dx + O(dx^3)
+			// Symmetric difference is O(dx^2)
+			// f'(x) = (f(x + dx) - f(x - dx))/2dx + O(dx^2)
+			double f = 100;
+			double s = 0.1;
+			double k = 100;
+			for (auto df : { 0.1, 0.01, 0.001, 0.0001 }) {
+				double dp = (put(f + df, s, k) - put(f - df, s, k)) / (2 * df);
+				dp = dp;
+				//!!! if dp - put_delta is not close to df^2 return false
+			}
+		}
 
+		return true;
+	}
+#endif // _DEBUG
+
+#if 0
 	// d^2p/df^2
 	inline double gamma(double f, double s, double k, const distribution& m = distribution_normal{})
 	{
 		return 0;
 	}
 #endif // 0
+
 	// dp/ds = -f d/ds P(x, s)
 	inline double vega(double f, double s, double k, const distribution& m = distribution_normal{})
 	{
@@ -95,9 +129,9 @@ namespace fms::option {
 		}
 
 		double p_ = put(f, s, k);
-		double dp_ = vega(f, s, k); // dv/ds
+		double dp_ = vega(f, s, k); // dp/ds
 		double s_ = s - (p_ - p) / dp_; // Newton-Raphson
-		s_ = std::clamp(s_, s / 2, 2 * s);
+		s_ = std::clamp(s_, s / 2, 2 * s); // s/2 <= s_ <= 2s
 
 		unsigned n0 = 1;
 		while (fabs(s_ - s) > tol && n0 <= n) {
@@ -111,6 +145,7 @@ namespace fms::option {
 
 		return { s_, s_ - s, n0 };
 	}
+
 #ifdef _DEBUG
 	inline bool test_implied()
 	{
@@ -152,6 +187,11 @@ namespace fms::option {
 		// Black to Black-Scholes/Merton parameters
 		inline std::tuple<double, double, double> Dfs(double r, double s0, double sigma, double t)
 		{
+			if (s0 < 0 || sigma < 0 || t < 0) {
+				// NaN indicates which condition failed
+				return { s0 < 0 ? NaN : s0, sigma < 0 ? NaN : sigma, t < 0 ? NaN : t };
+			}
+
 			double D = exp(-r * t);
 
 			return { D, s0 / D, sigma * sqrt(t) };
@@ -187,7 +227,8 @@ namespace fms::option {
 			return D * option::call(f, s, o.k, m);
 		}
 
-		// delta = dp/ds_0 = d/ds_0 D E[nu(F/D)] = D E[nu'(F/D)] 
+		// Chain rule d/ds0 = d/df df/ds0
+		// delta = dp/ds_0 = d/ds_0 D E[nu(F/D)] = D E[nu'(F/D) dF/df dF/ds0] = E^s[nu'(F/D]  
 		template<class O>
 		inline double delta(double r, double s0, double sigma, const O& o, const distribution& m = distribution_normal{});
 
@@ -196,7 +237,7 @@ namespace fms::option {
 		{
 			auto [D, f, s] = Dfs(r, s0, sigma, o.t);
 
-			return option::delta(f, s, o.k, m);
+			return option::put_delta(f, s, o.k, m);
 		}
 
 		template<>
@@ -204,8 +245,9 @@ namespace fms::option {
 		{
 			auto [D, f, s] = Dfs(r, s0, sigma, o.t);
 
-			return option::delta(f, s, o.k, m);
+			return option::call_delta(f, s, o.k, m);
 		}
+
 
 		// gamma
 		// vega
