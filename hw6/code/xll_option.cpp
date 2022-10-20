@@ -86,7 +86,7 @@ double WINAPI xll_bsm_put_value(double r, double s0, double sigma, double k, dou
 #pragma XLLEXPORT
 	distribution* pm = m ? safe_pointer<distribution>(m) : &normal;
 
-	return option::bsm::value(r, s0, sigma, option::bsm::put{k, t}, *pm);
+	return option::bsm::value(r, s0, sigma, option::bsm::put{ k, t }, * pm);
 }
 
 //!!! implement BSM.CALL.VALUE
