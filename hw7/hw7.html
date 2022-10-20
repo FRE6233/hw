@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>hw7</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="math.css" />
+  <script defer=""
+  src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: true
+   });
+}}});
+  </script>
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="hw7">hw7</h1>
+<p><strong>Exercise</strong>. <em>Find a closed form formula for <span
+class="math inline">E[\max\{e^M - e^N, 0\}]</span> where <span
+class="math inline">M</span> and <span class="math inline">N</span> are
+jointly normal</em>.</p>
+<p><em>Hint</em>. <span class="math inline">E[\max\{e^M - e^N, 0\}] =
+E[e^M\max\{1 - e^{N - M}\}, 0\}]</span>.</p>
+<p>Let <span class="math inline">S_t = se^{-\sigma^2t/2 + \sigma
+B_t}</span> for <span class="math inline">t\ge0</span> where <span
+class="math inline">(B_t)</span> is standard Browinian motion. The value
+of a call at time <span class="math inline">t</span> with strike <span
+class="math inline">k</span> expiring at <span
+class="math inline">T</span> in an arbitrage-free model is <span
+class="math inline">\bar{V}_t = E_t[\max\{S_T - k, 0\}]</span>.</p>
+<p>Let <span class="math inline">\bar{v}(s, k, t) = \bar{V}_0</span>,
+where <span class="math inline">s = S_0</span>. Note <span
+class="math inline">\bar{v}</span> is a function, not a random
+variable.</p>
+<p><strong>Exercise</strong>. <em>Show <span
+class="math inline">\bar{V}_t = S_t \bar{v}(S_t, k, T -
+t)</span></em>.</p>
+<p>Note <span class="math inline">\bar{v}(S_t, k, T - t)</span> is a
+random variable.</p>
+<p><em>Hint</em>. <span class="math inline">V_t = E_t[\max\{S_t
+e^{-\sigma^2(T-t)/2 + \sigma (B_T - B_t} - k, 0\}]</span></p>
+<p>If a trader puts on a position <span class="math inline">(M_t,
+N_t)</span> at time <span class="math inline">t</span> it has value
+<span class="math inline">V_t = M_t + N_t S_t</span> at <span
+class="math inline">t</span> and <span class="math inline">V_u = M_t +
+N_t S_u</span> at time <span class="math inline">u \ge t</span> if the
+position is constant over <span class="math inline">[t, u]</span> This
+is not, in general, the same as the model value <span
+class="math inline">\bar{V}_u</span>.</p>
+<p><strong>Exercise</strong>. <em>Find a general formula for <span
+class="math inline">V_u - \bar{V}_u</span></em>.</p>
+</body>
+</html>
