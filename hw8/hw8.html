@@ -83,6 +83,18 @@ and <span class="math inline">Y</span> are independent then <span
 class="math inline">f(X)</span> and <span
 class="math inline">g(Y)</span> are independent for any functions <span
 class="math inline">f</span> and <span class="math inline">g</span>.</p>
+<details>
+<summary>
+Solution
+</summary>
+Since the <span class="math inline">U_j</span> are independent, so are
+the <span class="math inline">f(U_j)</span>. <span
+class="math inline">\operatorname{Var}(\sum_1^n f(U_j)/n) = (\sum_1^n
+\operatorname{Var}(f(U_j))/n^2 = \operatorname{Var}(f(U))/n</span> since
+<span class="math inline">\operatorname{Var}(f(U_j)) =
+\operatorname{Var}(f(U))</span> for all <span
+class="math inline">j</span>.
+</details>
 <p>This is called the <em>weak law of large numbers</em> but it reveals
 an important general fact: <strong>when trying to estimate a random
 variable using <span class="math inline">n</span> samples the standard
@@ -97,6 +109,13 @@ class="math inline">U</span> is uniformly distributed on the interval
 <span class="math inline">[0,1]</span></em>.</p>
 <p><em>Hint</em>. Show <span class="math inline">X</span> and <span
 class="math inline">F^{-1}(U)</span> have the same law.</p>
+<details>
+<summary>
+Solution
+</summary>
+<span class="math inline">P(F^{-1}(U) \le x) = P(U \le F(x)) =
+F(x)</span> since <span class="math inline">0\le U\le 1</span>.
+</details>
 <h1 id="variance-reduction">Variance Reduction</h1>
 <p>Although variance is proportional to <span
 class="math inline">1/n</span> there are methods to reduce the constant
@@ -120,6 +139,21 @@ class="math inline">\operatorname{Cov}(f(X),f(-X)) &lt;
 \operatorname{Var}(f(X))</span> then <span
 class="math inline">\operatorname{Var}((f(X) + f(-X))/2) &lt;
 \operatorname{Var}(f(X))</span></em>.</p>
+<details>
+<summary>
+Solution
+</summary>
+<span class="math display">
+\begin{aligned}
+\operatorname{Var}((f(X) + f(-X))/2) &amp;= (\operatorname{Var}(f(X)) +
+2\operatorname{Cov}(f(X),f(-X)) + \operatorname{Var}(f(-X)))/4 \\
+    &amp;\lt (\operatorname{Var}(f(X)) + 2\operatorname{Var}(f(X)) +
+\operatorname{Var}(f(-X)))/4 \\
+    &amp;= \operatorname{Var}(f(X)) \\
+\end{aligned}
+</span> since <span class="math inline">\operatorname{Var}(f(X)) =
+\operatorname{Var}(f(-X))</span>.
+</details>
 <p>The estimate of <span class="math inline">E[f(X)]</span> can be
 improved by averaging with the estimate of <span
 class="math inline">E[f(-X)]</span> if <span
@@ -149,9 +183,28 @@ Y)/\operatorname{Var}(Y)</span></em>.</p>
 class="math inline">c</span> and note <span
 class="math inline">\operatorname{Var}(Y - E[Y]) = \operatorname{Var}(Y)
 &gt; 0</span>.</p>
+<details>
+<summary>
+Solution
+</summary>
+<span class="math inline">0 = (d/dc) \operatorname{Var}(X) -
+2c\operatorname{Cov}(X, Y - E[Y]) + c^2\operatorname{Var}(Y - E[Y]) =
+-2\operatorname{Cov}(X, Y - E[Y]) + 2c\operatorname{Var}(Y -
+E[Y])</span> when <span class="math inline">c = \operatorname{Cov}(X, Y
+- E[Y])/\operatorname{Var}(Y - E[Y])</span>. Since <span
+class="math inline">\operatorname{Var}(Z + a) =
+\operatorname{Var}(Z)</span> for any constant <span
+class="math inline">a</span> the result follows.
+</details>
 <p><strong>Exercise</strong>. <em>Show the miniumum is <span
 class="math inline">\operatorname{Var}(X) -
 \operatorname{Cov}(X,Y)^2/\operatorname{Var}(Y)</span></em>.</p>
+<details>
+<summary>
+Solution
+</summary>
+Algebra.
+</details>
 <p><strong>Exercise</strong>. <em>If <span
 class="math inline">\operatorname{Var}(X) = \operatorname{Var}(Y) =
 \sigma^2</span> and <span class="math inline">\rho</span> is the
@@ -160,6 +213,12 @@ class="math inline">Y</span> then <span
 class="math inline">\operatorname{Var}(X) -
 \operatorname{Cov}(X,Y)^2/\operatorname{Var}(Y) = \sigma^2(1 -
 \rho^2)</span></em>.</p>
+<details>
+<summary>
+Solution
+</summary>
+<span class="math inline">\operatorname{Cov}(X,Y) = \rho\sigma^2</span>.
+</details>
 <p>If <span class="math inline">Y</span> is close to <span
 class="math inline">X</span> then <span
 class="math inline">\operatorname{Cov}(X,Y)</span> is positive so <span
