@@ -51,7 +51,8 @@ uniformly distributed on the interval $[0,1]$_.
 _Hint_. Show $X$ and $F^{-1}(U)$ have the same law.
 
 <details><summary>Solution</summary>
-$P(F^{-1}(U) \le x) = P(U \le F(x)) = F(x)$ since $0\le U\le 1$.
+$P(F^{-1}(U) \le x) = P(U \le F(x)) = F(x)$ since $0\le U\le 1$
+and $F^U(x) = x$, $0\le x\le 1$, $=0$ if $x < 0$, $=1$ if $x > 1$.
 </details>
 
 # Variance Reduction
