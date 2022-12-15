@@ -31,6 +31,8 @@ HANDLEX WINAPI xll_distribution_logistic()
 	return safe_handle<distribution>(&logistic);
 }
 
+//!!! Return a handle to the double exponential distribution.
+
 AddIn xai_distribution_pdf(
 	Function(XLL_DOUBLE, "xll_distribution_pdf", "DISTRIBUTION.PDF")
 	.Arguments({

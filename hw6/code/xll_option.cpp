@@ -71,7 +71,7 @@ double WINAPI xll_option_implied(double f, double p, double k,
 AddIn xai_bsm_put_value(
 	Function(XLL_DOUBLE, "xll_bsm_put_value", "BSM.PUT.VALUE")
 	.Arguments({
-		Arg(XLL_DOUBLE, "r", "is the risk-neutral rate."),
+		Arg(XLL_DOUBLE, "r_", "is the risk-neutral rate."),
 		Arg(XLL_DOUBLE, "s0", "is the spot."),
 		Arg(XLL_DOUBLE, "sigma", "is the volatility."),
 		Arg(XLL_DOUBLE, "k", "is the strike."),
@@ -94,7 +94,7 @@ double WINAPI xll_bsm_put_value(double r, double s0, double sigma, double k, dou
 AddIn xai_bsm_put_delta(
 	Function(XLL_FPX, "xll_bsm_put_delta", "BSM.PUT.DELTA")
 	.Arguments({
-		Arg(XLL_DOUBLE, "r", "is the risk-neutral rate."),
+		Arg(XLL_DOUBLE, "r_", "is the risk-neutral rate."),
 		Arg(XLL_FPX, "s0", "is the spot."),
 		Arg(XLL_FPX, "sigma", "is the volatility."),
 		Arg(XLL_FPX, "k", "is the strike."),
