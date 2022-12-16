@@ -9,7 +9,7 @@ namespace fms {
 	//!!! implement the double exponential distribution
 	// copied from distribution_logistic
 	struct distribution_double_exponential : public distribution {
-		// copyied from https://keithalewis.github.io/math/de.html
+		// copied from https://keithalewis.github.io/math/de.html
 		inline static double β = sqrt(2.);
 
 		//!!! stub function
