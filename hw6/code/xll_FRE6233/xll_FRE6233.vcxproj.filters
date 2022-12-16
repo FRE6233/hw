@@ -41,7 +41,7 @@
     <ClInclude Include="..\fms_option.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\fms_double_exponential.h">
+    <ClInclude Include="..\fms_distribution_double_exponential.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

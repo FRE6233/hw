@@ -2,12 +2,15 @@
 #include "xll_FRE6233.h"
 #include "fms_distribution_normal.h"
 #include "fms_distribution_logistic.h"
+#include "fms_distribution_double_exponential.h"
 
 using namespace xll;
 using namespace fms;
 
 static distribution_normal normal;
 static distribution_logistic logistic;
+// create object in memory to return its address/handle
+static distribution_logistic double_exponential;
 
 AddIn xai_distribution_normal(
 	Function(XLL_HANDLEX, "xll_distribution_normal", "DISTRIBUTION.NORMAL")
@@ -32,6 +35,16 @@ HANDLEX WINAPI xll_distribution_logistic()
 }
 
 //!!! Return a handle to the double exponential distribution.
+AddIn xai_distribution_double_exponential(
+	Function(XLL_HANDLEX, "xll_distribution_double_exponential", "DISTRIBUTION.DOUBLE_EXPONENTIAL")
+	.Category(CATEGORY)
+	.FunctionHelp("Return a handle to the standard double_exponential distribution.")
+);
+HANDLEX WINAPI xll_distribution_double_exponential()
+{
+#pragma XLLEXPORT
+	return safe_handle<distribution>(&double_exponential);
+}
 
 AddIn xai_distribution_pdf(
 	Function(XLL_DOUBLE, "xll_distribution_pdf", "DISTRIBUTION.PDF")
